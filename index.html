@@ -103,9 +103,21 @@
       from { opacity: 0; }
       to { opacity: 1; }
     }
-    /* Audio player styling */
-    #audio-player {
-      display: none; /* Completely hide the audio player */
+    /* Video player styling */
+    #video-player {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 0;
+      height: 0;
+      opacity: 0; /* Hide the video player */
+    }
+    /* Autoplay error message */
+    #autoplay-error {
+      font-size: 0.9rem;
+      color: #d6336c;
+      margin-top: 10px;
+      display: none; /* Hidden by default */
     }
   </style>
 </head>
@@ -144,7 +156,8 @@
     <div id="puzzle3" class="puzzle-section hidden">
       <h2>Puzzle 3</h2>
       <p>
-        Math Puzzle: "Is he the most amazing person in the world, hint: yes"
+        Math Puzzle: "What is the next number in the sequence:
+        2, 4, 8, 16, ?"
       </p>
       <input type="text" id="answer3" placeholder="Your answer here">
       <br>
@@ -172,7 +185,7 @@
 
     <!-- Secret Message -->
     <div id="secretMessage" class="hidden">
-      <h2>Hi Toto!</h2>
+      <h2>Congratulations!</h2>
       <p class="secret-text">
         I know it took me way too long to ask this, and maybe at times, it seemed like I didn’t care—but the truth is, I care about you more than I can ever put into words. You are on my mind from the moment I wake up to the second I fall asleep. Your texts instantly brighten my mood, your TikToks always make me laugh (even when I don’t want to), and your smile? It’s my favorite thing in the world.
         <br><br>
@@ -184,14 +197,33 @@
       </p>
     </div>
 
-    <!-- Audio Player -->
-    <audio id="audio-player">
+    <!-- Video Player (for audio) -->
+    <video id="video-player" muted autoplay loop>
       <source src="https://github.com/Shelham/valentine/blob/main/those%20eyes.mp3" type="audio/mpeg">
       Your browser does not support the audio element.
-    </audio>
+    </video>
+
+    <!-- Autoplay error message -->
+    <p id="autoplay-error">Click anywhere to enable audio playback.</p>
   </div>
 
   <script>
+    const videoPlayer = document.getElementById('video-player');
+    const autoplayError = document.getElementById('autoplay-error');
+
+    // Attempt to autoplay the muted video
+    videoPlayer.play().catch((error) => {
+      console.error("Autoplay failed:", error);
+      autoplayError.style.display = 'block'; // Show error message
+    });
+
+    // Unmute and set volume to maximum on user interaction
+    document.addEventListener('click', () => {
+      videoPlayer.muted = false;
+      videoPlayer.volume = 1;
+      autoplayError.style.display = 'none'; // Hide error message
+    });
+
     // Puzzle 1: Answer should be "shamola"
     function checkPuzzle1() {
       const answer1 = document.getElementById('answer1').value.trim().toLowerCase();
@@ -200,16 +232,9 @@
         setTimeout(() => {
           document.getElementById('puzzle1').classList.add('hidden');
           document.getElementById('lovelyMessage1').classList.remove('hidden');
-          // Start playing the audio
-          const audioPlayer = document.getElementById('audio-player');
-          audioPlayer.play().then(() => {
-            audioPlayer.volume = 1; // Set volume to maximum
-          }).catch((error) => {
-            console.error("Autoplay failed:", error);
-          });
         }, 1000);
       } else {
-        document.getElementById('feedback1').textContent = "Really!";
+        document.getElementById('feedback1').textContent = "Try again!";
       }
     }
 
@@ -223,21 +248,21 @@
           document.getElementById('lovelyMessage2').classList.remove('hidden');
         }, 1000);
       } else {
-        document.getElementById('feedback2').textContent = "Nope, jaba!";
+        document.getElementById('feedback2').textContent = "Try again!";
       }
     }
 
-    // Puzzle 3: Answer should be "yes"
+    // Puzzle 3: Answer should be "32"
     function checkPuzzle3() {
       const answer3 = document.getElementById('answer3').value.trim();
-      if(answer3 === "yes") {
+      if(answer3 === "32") {
         document.getElementById('feedback3').textContent = "Correct!";
         setTimeout(() => {
           document.getElementById('puzzle3').classList.add('hidden');
           document.getElementById('lovelyMessage3').classList.remove('hidden');
         }, 1000);
       } else {
-        document.getElementById('feedback3').textContent = "dude I built you a webpage!";
+        document.getElementById('feedback3').textContent = "Try again!";
       }
     }
 
