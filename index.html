@@ -144,7 +144,7 @@
     <div id="puzzle3" class="puzzle-section hidden">
       <h2>Puzzle 3</h2>
       <p>
-        Is he the most amazing person in the world, <br>hint: yes"
+        Is he the most amazing person in the world, <br>hint: CAPS YES😂
       </p>
       <input type="text" id="answer3" placeholder="Your answer here">
       <br>
@@ -230,7 +230,7 @@
     // Puzzle 3: Answer should be "yes"
     function checkPuzzle3() {
       const answer3 = document.getElementById('answer3').value.trim();
-      if(answer3 === "yes") {
+      if(answer3 === "YES") {
         document.getElementById('feedback3').textContent = "Correct!";
         setTimeout(() => {
           document.getElementById('puzzle3').classList.add('hidden');
