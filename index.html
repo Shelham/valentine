@@ -103,6 +103,16 @@
       from { opacity: 0; }
       to { opacity: 1; }
     }
+    /* YouTube audio styling */
+    #youtube-audio {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 300px;
+      height: 50px;
+      border: none;
+      opacity: 0; /* Hide the player */
+    }
   </style>
 </head>
 <body>
@@ -140,7 +150,7 @@
     <div id="puzzle3" class="puzzle-section hidden">
       <h2>Puzzle 3</h2>
       <p>
-        Math Puzzle: "Is he the most amazing person you know?"
+        Math Puzzle: "Is he the most amazing person in the world. hint: yes😂?"
       </p>
       <input type="text" id="answer3" placeholder="Your answer here">
       <br>
@@ -168,7 +178,7 @@
 
     <!-- Secret Message -->
     <div id="secretMessage" class="hidden">
-      <h2>That's my girl, I knew you'd make it!</h2>
+      <h2>Hi toto!</h2>
       <p class="secret-text">
         I know it took me way too long to ask this, and maybe at times, it seemed like I didn’t care—but the truth is, I care about you more than I can ever put into words. You are on my mind from the moment I wake up to the second I fall asleep. Your texts instantly brighten my mood, your TikToks always make me laugh (even when I don’t want to), and your smile? It’s my favorite thing in the world.
         <br><br>
@@ -179,6 +189,15 @@
         Will you be my Valentine? ❤️
       </p>
     </div>
+
+    <!-- YouTube Audio -->
+    <iframe
+      id="youtube-audio"
+      src="https://www.youtube.com/embed/b_CpWmkhwq0?autoplay=1&mute=1&enablejsapi=1"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+    ></iframe>
   </div>
 
   <script>
@@ -190,9 +209,17 @@
         setTimeout(() => {
           document.getElementById('puzzle1').classList.add('hidden');
           document.getElementById('lovelyMessage1').classList.remove('hidden');
+          // Start playing the YouTube audio
+          const youtubeAudio = document.getElementById('youtube-audio');
+          youtubeAudio.src += "&autoplay=1"; // Ensure autoplay
+          // Unmute and set volume to maximum after a short delay
+          setTimeout(() => {
+            youtubeAudio.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
+            youtubeAudio.contentWindow.postMessage('{"event":"command","func":"setVolume","args":"100"}', '*');
+          }, 1000);
         }, 1000);
       } else {
-        document.getElementById('feedback1').textContent = "Wow, what! what!";
+        document.getElementById('feedback1').textContent = "haha try again!";
       }
     }
 
@@ -206,11 +233,11 @@
           document.getElementById('lovelyMessage2').classList.remove('hidden');
         }, 1000);
       } else {
-        document.getElementById('feedback2').textContent = "We acha bana!";
+        document.getElementById('feedback2').textContent = "we acha bana!";
       }
     }
 
-    // Puzzle 3: Answer should be "32"
+    // Puzzle 3: Answer should be "yes"
     function checkPuzzle3() {
       const answer3 = document.getElementById('answer3').value.trim();
       if(answer3 === "yes") {
@@ -220,7 +247,7 @@
           document.getElementById('lovelyMessage3').classList.remove('hidden');
         }, 1000);
       } else {
-        document.getElementById('feedback3').textContent = "Na nimeunda website 😂😂!";
+        document.getElementById('feedback3').textContent = "wrong, I just built a website for you!😂😂";
       }
     }
 
