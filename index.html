@@ -103,15 +103,9 @@
       from { opacity: 0; }
       to { opacity: 1; }
     }
-    /* YouTube audio styling */
-    #youtube-audio {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      width: 300px;
-      height: 50px;
-      border: none;
-      opacity: 0; /* Hide the player */
+    /* Audio player styling */
+    #audio-player {
+      display: none; /* Completely hide the audio player */
     }
   </style>
 </head>
@@ -150,7 +144,7 @@
     <div id="puzzle3" class="puzzle-section hidden">
       <h2>Puzzle 3</h2>
       <p>
-        Math Puzzle: "Is he the most amazing person in the world. hint: yes😂?"
+        Math Puzzle: "Is he the most amazing person in the world, hint: yes"
       </p>
       <input type="text" id="answer3" placeholder="Your answer here">
       <br>
@@ -178,7 +172,7 @@
 
     <!-- Secret Message -->
     <div id="secretMessage" class="hidden">
-      <h2>Hi toto!</h2>
+      <h2>Hi Toto!</h2>
       <p class="secret-text">
         I know it took me way too long to ask this, and maybe at times, it seemed like I didn’t care—but the truth is, I care about you more than I can ever put into words. You are on my mind from the moment I wake up to the second I fall asleep. Your texts instantly brighten my mood, your TikToks always make me laugh (even when I don’t want to), and your smile? It’s my favorite thing in the world.
         <br><br>
@@ -191,7 +185,7 @@
     </div>
 
     <!-- Audio Player -->
-    <audio id="audio-player" controls>
+    <audio id="audio-player">
       <source src="https://github.com/Shelham/valentine/blob/main/those%20eyes.mp3" type="audio/mpeg">
       Your browser does not support the audio element.
     </audio>
@@ -206,17 +200,16 @@
         setTimeout(() => {
           document.getElementById('puzzle1').classList.add('hidden');
           document.getElementById('lovelyMessage1').classList.remove('hidden');
-          // Start playing the YouTube audio
-          const youtubeAudio = document.getElementById('youtube-audio');
-          youtubeAudio.src += "&autoplay=1"; // Ensure autoplay
-          // Unmute and set volume to maximum after a short delay
-          setTimeout(() => {
-            youtubeAudio.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
-            youtubeAudio.contentWindow.postMessage('{"event":"command","func":"setVolume","args":"100"}', '*');
-          }, 1000);
+          // Start playing the audio
+          const audioPlayer = document.getElementById('audio-player');
+          audioPlayer.play().then(() => {
+            audioPlayer.volume = 1; // Set volume to maximum
+          }).catch((error) => {
+            console.error("Autoplay failed:", error);
+          });
         }, 1000);
       } else {
-        document.getElementById('feedback1').textContent = "haha try again!";
+        document.getElementById('feedback1').textContent = "Really!";
       }
     }
 
@@ -230,7 +223,7 @@
           document.getElementById('lovelyMessage2').classList.remove('hidden');
         }, 1000);
       } else {
-        document.getElementById('feedback2').textContent = "we acha bana!";
+        document.getElementById('feedback2').textContent = "Nope, jaba!";
       }
     }
 
@@ -244,7 +237,7 @@
           document.getElementById('lovelyMessage3').classList.remove('hidden');
         }, 1000);
       } else {
-        document.getElementById('feedback3').textContent = "wrong, I just built a website for you!😂😂";
+        document.getElementById('feedback3').textContent = "dude I built you a webpage!";
       }
     }
 
